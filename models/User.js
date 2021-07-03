@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: [6, "Minimo de password es 6 caracteres"],
   },
+  role: {
+    type: String,
+    default: "VENDOR",
+    enum: ["VENDOR", "COSTUMER", "ADMIN"],
+  },
 });
 //se dispara cuando algo courre despues del evento de guarado del usuario se llama mongoose hook
 /* userSchema.post('save', function(doc,next){
