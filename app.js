@@ -9,7 +9,8 @@ const cookieParser = require("cookie-parser");
 const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 const app = express();
 const PORT = process.env.PORT || 5000;
-const mongoConnect = process.env.MONGODB_LOCAL;
+const mongoConnect =
+  process.env.MONGODB_ONLINE || "mongodb://localhost/marketplace";
 //middlewares
 app.use(express.static("public"));
 //body parser express
@@ -19,7 +20,7 @@ app.use(express.json());
 //cookie parser express
 app.use(cookieParser());
 //database connection local && online
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 mongoose
   .connect(mongoConnect, {
     useNewUrlParser: true,

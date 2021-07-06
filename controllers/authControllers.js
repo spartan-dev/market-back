@@ -40,13 +40,15 @@ const createToken = (id) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   try {
-    const signUser = await User.create({ email, password });
+    const signUser = await User.create({ email, password, role });
     const token = createToken(signUser._id);
     //set cookie ready to send
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: signUser._id, jwt: token });
+    res
+      .status(200)
+      .json({ user: signUser._id, jwt: token, role: signUser.role });
   } catch (error) {
     const errors = handleErrors(error);
     res.status(400).json({ errors });

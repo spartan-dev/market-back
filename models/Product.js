@@ -19,6 +19,11 @@ const productSchema = new mongoose.Schema({
     required: [true, "Precio es requerido"],
   },
   image: [{ path: String, filename: String }],
+  vendedor: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "user",
+  },
 });
 const Product = mongoose.model("product", productSchema);
 module.exports = Product;

@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const User = require("../models/User");
 const uploadCloud = require("../cloudinary");
 const handleProductErrors = (error) => {
   let errors = { name: "", price: "", sku: "", qty: "" };
@@ -24,14 +25,16 @@ const handleProductErrors = (error) => {
   return errors;
 };
 module.exports.createProduct = async (req, res) => {
-  const { name, price, sku, qty } = req.body;
+  const { name, price, sku, qty, userId } = req.body;
   //const { image } = req.files;
+  console.log(req.body);
   try {
     const product = await new Product({
       name,
       price,
       sku,
       qty,
+      vendedor: userId,
     });
     await product.save();
     res.status(200).json({ message: "Producto creado con exito", product });
@@ -48,6 +51,22 @@ module.exports.getProducts = async (req, res, next) => {
     res.status(201).json({ allProducts });
   } catch (error) {
     console.log(error);
+    const errors = handleProductErrors(error);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports.getProductsByVendor = async (req, res, next) => {
+  const { userId } = req.body;
+  console.log(req.body, "si llego ?");
+  console.log(userId, "si llego ?");
+  try {
+    const vendorProducts = await Product.find({
+      vendedor: userId,
+    });
+    console.log(vendorProducts, "si lo hicimos");
+    res.status(200).json({ vendorProducts });
+  } catch (error) {
     const errors = handleProductErrors(error);
     res.status(400).json({ errors });
   }

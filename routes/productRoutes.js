@@ -11,5 +11,6 @@ const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 //routes
 router.post("/createproduct", productController.createProduct);
 router.get("/products", productController.getProducts);
+router.post("/productsbyvendor", productController.getProductsByVendor);
 
 module.exports = router;
