@@ -8,14 +8,15 @@ const requireAuth = (req, res, next) => {
     jwt.verify(token, SECRET_KEY, (error, decodedToken) => {
       if (error) {
         console.log(error.message);
-        //res.redirect("/login");
+        res.json({ error });
       } else {
         console.log(decodedToken);
+        res.json({ message: "Si lo logramos" });
         next();
       }
     });
   } else {
-    res.redirect("/login");
+    res.json({ message: "No es un usuario autenticado" });
   }
 };
 

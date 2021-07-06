@@ -3,21 +3,22 @@ const { isEmail } = require("validator");
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Name is required"],
+    required: [true, "Nombre es requerido"],
     lowercase: true,
   },
   sku: {
     type: String,
-    required: [true, "SKU is required"],
+    required: [true, "SKU es requerido"],
   },
   qty: {
-    type: Number,
-    required: [true, "Quantity is required"],
+    type: String,
+    required: [true, "Cantidad es requerido"],
   },
   price: {
-    type: Number,
-    required: [true, "Price is required"],
+    type: String,
+    required: [true, "Precio es requerido"],
   },
+  image: [{ path: String, filename: String }],
 });
 const Product = mongoose.model("product", productSchema);
 module.exports = Product;
